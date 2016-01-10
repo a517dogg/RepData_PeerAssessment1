@@ -1,14 +1,10 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 
 ## Loading and preprocessing the data
 
-```{r, echo = TRUE, warning=FALSE, comment=NA, message=FALSE}
+
+```r
 library(ggplot2)
 library(plyr); library(dplyr)
 library(lubridate)
@@ -19,9 +15,24 @@ perday <- summarize(group_by(activity, date),total = sum(steps, na.rm = TRUE))
 
 ## What is mean total number of steps taken per day?
 
-```{r, echo = TRUE, warning=FALSE, comment=NA}
+
+```r
 cat("Mean:", mean(perday$total, na.rm = TRUE))
+```
+
+```
+Mean: 9354.23
+```
+
+```r
 cat("Median:", median(perday$total, na.rm = TRUE))
+```
+
+```
+Median: 10395
+```
+
+```r
 ggplot(data = perday, aes(perday$total)) +
   geom_histogram(width = 2, bins = 15, col = "red") +
   theme_bw() +
@@ -29,12 +40,15 @@ ggplot(data = perday, aes(perday$total)) +
        y = "Number of days", 
        title = "Distribution of steps across 2 months") +
   xlim(c(0, 22000))
-```  
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-2-1.png) 
 
 
 ## What is the average daily activity pattern?
 
-```{r, echo = TRUE, warning=FALSE, comment=NA}
+
+```r
 pattern <- activity %>% 
   group_by(interval) %>% 
   summarize(avg = mean(steps, na.rm = TRUE))
@@ -43,13 +57,22 @@ ggplot(data = pattern, aes(x = interval, y = avg)) +
   theme_bw() +
   xlim(c(0, 2355)) +
   labs(title = "Average daily pattern", x = "Time interval", y = "Steps")
+```
 
-```  
+![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
 ## Imputing missing values
 #####If there is an NA, I will just the average value for that interval.
-```{r, echo = TRUE, warning=FALSE, comment=NA}
+
+```r
 cat("Number of rows with NAs is", sum(is.na(activity)))
+```
+
+```
+Number of rows with NAs is 2304
+```
+
+```r
 #create new dataframe that will have impuned values
 impune <- activity
 #calculated average values for time intervals, to use for impuning
@@ -70,15 +93,39 @@ ggplot(data = perdayimpune, aes(perdayimpune$total)) +
        y = "Number of days", 
        title = "Distribution of steps across 2 months, with missing data impuned") +
   xlim(c(0, 22000))
+```
+
+![](PA1_template_files/figure-html/unnamed-chunk-4-1.png) 
+
+```r
 cat("New mean:", mean(perdayimpune$total, na.rm = TRUE))
+```
+
+```
+New mean: 10766.19
+```
+
+```r
 cat("New median:", median(perdayimpune$total, na.rm = TRUE))
+```
+
+```
+New median: 10766.19
+```
+
+```r
 print("After impuning missing data with this method, both mean and median steps taken per day go up.")
+```
+
+```
+[1] "After impuning missing data with this method, both mean and median steps taken per day go up."
 ```
 
 
 ## Are there differences in activity patterns between weekdays and weekends?
 
-```{r, echo = TRUE, warning=FALSE, comment=NA}
+
+```r
 impune$dow <- 0
 impune$weekend <- 0
 #a for loop to add in days of week
@@ -111,3 +158,5 @@ ggplot(allavg, aes(x = interval, y = avg)) +
        y = "Number of steps per interval", 
        title = "How activity differs from weekdays to weekends")
 ```
+
+![](PA1_template_files/figure-html/unnamed-chunk-5-1.png) 
