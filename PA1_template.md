@@ -57,8 +57,6 @@ ggplot(data = pattern, aes(x = interval, y = avg)) +
   theme_bw() +
   xlim(c(0, 2355)) +
   labs(title = "Average daily pattern", x = "Time interval", y = "Steps")
-print("The 5 minute interval with the maximum average value was:")
-print(filter(pattern, avg == max(avg)))
 ```
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
