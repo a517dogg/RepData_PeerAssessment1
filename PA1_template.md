@@ -61,6 +61,26 @@ ggplot(data = pattern, aes(x = interval, y = avg)) +
 
 ![](PA1_template_files/figure-html/unnamed-chunk-3-1.png) 
 
+```r
+print("The 5 minute interval with the maximum average value was:")
+```
+
+```
+[1] "The 5 minute interval with the maximum average value was:"
+```
+
+```r
+print(filter(pattern, avg == max(avg)))
+```
+
+```
+Source: local data frame [1 x 2]
+
+  interval      avg
+     (int)    (dbl)
+1      835 206.1698
+```
+
 ## Imputing missing values
 #####If there is an NA, I will just the average value for that interval.
 
